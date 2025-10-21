@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({user:username}, process.env.SECRET);
     res.cookie("user", token, {
       httpOnly: true, 
-      secure: false, // set true in production (https)
+      secure: (process.env.FRONTEND_URL==="http://localhost:5173")?false:true, 
     });
     return res.json({ msg: "success" });
   }

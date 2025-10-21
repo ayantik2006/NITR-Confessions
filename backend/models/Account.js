@@ -12,4 +12,4 @@ const schema = new mongoose.Schema({
   think: { type: Array, default: [] },
 });
 
-module.exports = new mongoose.model("Account", schema);
+module.exports = mongoose.model("Account", schema);

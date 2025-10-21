@@ -14,4 +14,4 @@ const schema = new mongoose.Schema({
   time: { type: Number, default: 0 },
 });
 
-module.exports = new mongoose.model("Confession", schema);
+module.exports = mongoose.model("Confession", schema);

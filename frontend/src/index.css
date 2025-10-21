@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@layer{
+    #nav-main-heading{
+        font-family:sans-serif
+    }
+    @media (max-width:579px) {
+        #nav-main-heading{
+            /* display: none; */
+        }
+    }
+    #tagline{
+        font-size: 1.1rem;
+    }
+    @media (max-width:493px) {
+        #nav-main-heading{
+            /* display: none; */
+        }
+    }
+    #tagline{
+        font-size: 1rem;
+    }
+}

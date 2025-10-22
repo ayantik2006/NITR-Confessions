@@ -4,12 +4,13 @@ const jwt = require("jsonwebtoken");
 
 exports.createConfession = async (req, res) => {
   const user = jwt.verify(req.cookies.user, process.env.SECRET).user;
-
+  const userData=await Account.findOne({username:user});
   const { category, content } = req.body;
   await Confession.create({
     category: category,
     content: content,
     creator: user,
+    creatorGender:userData.gender,
     time: new Date().getTime() / 1000,
   });
   res.json({});

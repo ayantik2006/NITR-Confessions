@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   creator: { type: String, default: "" },
+  creatorGender: { type: String, default: "" },
   category: { type: String, default: "" },
   content: { type: String, default: "" },
   likes: { type: Number, default: 0 },

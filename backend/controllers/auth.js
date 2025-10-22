@@ -11,11 +11,10 @@ exports.getUser = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const { username, password } = req.body;
-  console.log(req.body);
+  const { username, password, gender } = req.body;
   const userData = await Account.find({ username: username });
   if (userData.length !== 0) return res.json({ msg: "failure" });
-  await Account.create({ username: username, password: password });
+  await Account.create({ username: username, password: password,gender:gender });
 
   res.json({});
 };

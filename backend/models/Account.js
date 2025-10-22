@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
   username: { type: String, default: "" },
   password: { type: String, default: "" },
+  gender: { type: String, default: "" },
   likes: { type: Array, default: [] },
   comments: { type: Array, default: [] },
   lol: { type: Array, default: [] },

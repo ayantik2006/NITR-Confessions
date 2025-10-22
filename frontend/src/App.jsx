@@ -55,7 +55,7 @@ function App() {
 
   if (isLoggedIn)
     return (
-      <div className="min-h-screen w- bg-[#1b1f23] flex flex-col items-center">
+      <div className="min-h-screen bg-[#1b1f23] flex flex-col items-center bg-radial from-red-600 to-red-100">
         <Snackbar
           open={confessionAddedOpen}
           autoHideDuration={4000}
@@ -75,421 +75,425 @@ function App() {
             Your confession is now public!
           </Alert>
         </Snackbar>
-        <nav className="w-full h-[5.5rem] bg-[#252a30] border-b-gray-600 border-1 flex gap-3 items-center justify-center">
-          <div className="w-[4.5rem] h-[4.5rem] flex items-center justify-center bg-gray-500 rounded-[1rem] ml-5">
+        <nav className="w-full h-[5.5rem] border-black border-b-2 flex gap-3 items-center justify-center  fixed top-0 mb-[14rem] z-30 bg-[#f68250]">
+          <div className="w-[4.5rem] h-[4.5rem] flex items-center justify-center bg-gray-500 rounded-[1rem] ml-5 ">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
               className="rounded-[1rem] w-[4.2rem] h-[4.2rem]"
             />
           </div>
           <div className="flex flex-col">
-            <h1
-              className="font-barrio text-white text-[1.5rem] font-bold"
-              id="nav-main-heading"
-            >
-              {/* National Institute of Technology, Rourkela */}NITR
-              Confessions
+            <h1 className=" text-black text-[1.5rem] font-bold font-[Combo]">
+              {/* National Institute of Technology, Rourkela */}NITR Confessions
             </h1>
-            <h2 className="text-gray-200 font-semibold" id="tagline">
+            <h2 className="text-black font-semibold " id="tagline">
               Boldo Mann ki Baat 😉
             </h2>
           </div>
         </nav>
 
-        <button
-          className="w-[18rem]  m-4 h-[2.3rem] bg-[#3033d5] px-2 rounded text-white font-semibold cursor-pointer hover:bg-[#2225d5] duration-300"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          <i className="fa-solid fa-plus mr-1"></i>
-          Confess!
-        </button>
+        <div className="flex flex-col items-center">
+          <button
+            className="w-[18rem] m-4 h-[2.3rem] bg-[#3033d5] px-2 rounded-[2rem] text-black font-semibold cursor-pointer hover:scale-[1.05] duration-200 bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 mt-[6rem]"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <i className="fa-solid fa-plus mr-1"></i>
+            Confess!
+          </button>
 
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <div className="fit mx-3 flex bg-gray-700 px-2 py-1 rounded">
-            <div className="text-white font-semibold flex gap-2">
-              <p className="bg-gray-600 px-2 py-1 rounded">
-                Sort by <i className="fa-solid fa-filter text-[0.9rem]"></i>
-              </p>
-              <select
-                className="outline-none cursor-pointer"
-                onClick={(e) => {
-                  if (!isOldest && e.target.value === "oldest") {
-                    setConfessions([...confessions].reverse());
-                    setIsOldest(true);
-                  } else if (isOldest && e.target.value === "default") {
-                    setConfessions([...confessions].reverse());
-                    setIsOldest(false);
-                  }
-                }}
-              >
-                <option
-                  value="default"
-                  className="text-black rounded cursor-pointer"
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="fit mx-3 flex bg-[#ffffff76] px-3 py-2 rounded-[1.4rem]">
+              <div className="font-semibold flex gap-2 text-black">
+                <p className="bg-[#e5464676] text-black px-2 py-1 rounded-[1.4rem] ">
+                  Sort by <i className="fa-solid fa-filter text-[0.9rem]"></i>
+                </p>
+                <select
+                  className="outline-none cursor-pointer"
+                  onClick={(e) => {
+                    if (!isOldest && e.target.value === "oldest") {
+                      setConfessions([...confessions].reverse());
+                      setIsOldest(true);
+                    } else if (isOldest && e.target.value === "default") {
+                      setConfessions([...confessions].reverse());
+                      setIsOldest(false);
+                    }
+                  }}
                 >
-                  Default
-                </option>
-                <option
-                  value="oldest"
-                  className="text-black rounded cursor-pointer"
+                  <option
+                    value="default"
+                    className="text-black rounded cursor-pointer"
+                  >
+                    Default
+                  </option>
+                  <option
+                    value="oldest"
+                    className="text-black rounded cursor-pointer"
+                  >
+                    Oldest first
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className="fit mx-3 flex px-3 py-2 rounded-[1.4rem] bg-[#ffffff76]">
+              <div className="text-white font-semibold flex gap-2">
+                <p className="bg-[#e5464676] px-2 py-1 rounded-[1.4rem] text-black">
+                  Category <i className="fa-solid fa-sort text-[0.9rem]"></i>
+                </p>
+                <select
+                  className="outline-none cursor-pointer text-black"
+                  onClick={async (e) => {
+                    if (e.currentTarget.value === "All") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "😂 Funny / Random") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "😂 Funny/Random") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "📚 Academics") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "📚 Academics") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "❤️ Crush/Love") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "❤️ Crush/Love") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "👨‍🏫 Prof Moments") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "👨‍🏫 Prof Moments") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "💭 Deep Thoughts") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "💭 Deep Thoughts") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "😤 Rant") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "😤 Rant") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    } else if (e.currentTarget.value === "😈 Dark secret") {
+                      console.log(e.currentTarget.value);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          if (!isOldest)
+                            setConfessions(res.confessions.reverse());
+                          else setConfessions(res.confessions);
+                          let tempConfessions = [];
+                          res.confessions.forEach((confession) => {
+                            if (confession.category === "😈 Dark secret") {
+                              tempConfessions.push(confession);
+                            }
+                          });
+                          setConfessions([...tempConfessions]);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }
+                  }}
                 >
-                  Oldest first
-                </option>
-              </select>
+                  <option value="All" className="rounded text-black">
+                    All
+                  </option>
+                  <option
+                    value="😂 Funny / Random"
+                    className="rounded text-black"
+                  >
+                    😂 Funny / Random
+                  </option>
+                  <option value="📚 Academics" className="rounded text-black">
+                    📚 Academics
+                  </option>
+                  <option value="❤️ Crush/Love" className="rounded text-black">
+                    ❤️ Crush/Love
+                  </option>
+                  <option
+                    value="👨‍🏫 Prof Moments"
+                    className="rounded text-black"
+                  >
+                    👨‍🏫 Prof Moments
+                  </option>
+                  <option
+                    value="💭 Deep Thoughts"
+                    className="rounded text-black"
+                  >
+                    💭 Deep Thoughts
+                  </option>
+                  <option value="😤 Rant" className="rounded text-black">
+                    😤 Rant
+                  </option>
+                  <option value="😈 Dark secret" className="rounded text-black">
+                    😈 Dark secret
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
-          <div className="fit mx-3 flex bg-gray-700 px-2 py-1 rounded">
-            <div className="text-white font-semibold flex gap-2">
-              <p className="bg-gray-600 px-2 py-1 rounded">
-                Category <i className="fa-solid fa-sort text-[0.9rem]"></i>
-              </p>
-              <select
-                className="outline-none cursor-pointer"
-                onClick={async (e) => {
-                  if (e.currentTarget.value === "All") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "😂 Funny / Random") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "😂 Funny/Random") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "📚 Academics") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "📚 Academics") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "❤️ Crush/Love") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "❤️ Crush/Love") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "👨‍🏫 Prof Moments") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "👨‍🏫 Prof Moments") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "💭 Deep Thoughts") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "💭 Deep Thoughts") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "😤 Rant") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "😤 Rant") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  } else if (e.currentTarget.value === "😈 Dark secret") {
-                    console.log(e.currentTarget.value);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        if (!isOldest)
-                          setConfessions(res.confessions.reverse());
-                        else setConfessions(res.confessions);
-                        let tempConfessions = [];
-                        res.confessions.forEach((confession) => {
-                          if (confession.category === "😈 Dark secret") {
-                            tempConfessions.push(confession);
-                          }
-                        });
-                        setConfessions([...tempConfessions]);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  }
-                }}
-              >
-                <option value="All" className="rounded text-black">
-                  All
-                </option>
-                <option
-                  value="😂 Funny / Random"
-                  className="rounded text-black"
-                >
-                  😂 Funny / Random
-                </option>
-                <option value="📚 Academics" className="rounded text-black">
-                  📚 Academics
-                </option>
-                <option value="❤️ Crush/Love" className="rounded text-black">
-                  ❤️ Crush/Love
-                </option>
-                <option value="👨‍🏫 Prof Moments" className="rounded text-black">
-                  👨‍🏫 Prof Moments
-                </option>
-                <option value="💭 Deep Thoughts" className="rounded text-black">
-                  💭 Deep Thoughts
-                </option>
-                <option value="😤 Rant" className="rounded text-black">
-                  😤 Rant
-                </option>
-                <option value="😈 Dark secret" className="rounded text-black">
-                  😈 Dark secret
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
 
-        <Dialog
-          open={open}
-          onClose={() => {
-            setOpen(false);
-          }}
-        >
-          <DialogTitle>Create a new Confession :)</DialogTitle>
-          <DialogContent>
-            <DialogContentText className="mb-5">
-              Write down your confession below and hit create to make your
-              confession public!
-            </DialogContentText>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log(e.currentTarget[1].value);
+          <Dialog
+            open={open}
+            onClose={() => {
+              setOpen(false);
+            }}
+          >
+            <DialogTitle>Create a new Confession :)</DialogTitle>
+            <DialogContent>
+              <DialogContentText className="mb-5">
+                Write down your confession below and hit create to make your
+                confession public!
+              </DialogContentText>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log(e.currentTarget[1].value);
 
-                fetch(import.meta.env.VITE_BACKEND_URL + "/new", {
-                  method: "POST",
-                  credentials: "include",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    category: e.currentTarget[0].value,
-                    content: e.currentTarget[1].value,
-                  }),
-                })
-                  .then(() => {
-                    setConfessionAddedOpen(true);
-                    setOpen(false);
-                    fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
-                      method: "POST",
-                      credentials: "include",
-                      headers: { "Content-Type": "application/json" },
-                    })
-                      .then((res) => res.json())
-                      .then((res) => {
-                        res.confessions.forEach((confession) => {
-                          confession.time =
-                            new Date().getTime() / 1000 - confession.time;
-                        });
-                        setConfessions(res.confessions.reverse());
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
+                  fetch(import.meta.env.VITE_BACKEND_URL + "/new", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      category: e.currentTarget[0].value,
+                      content: e.currentTarget[1].value,
+                    }),
                   })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-              className=""
-            >
-              <select
-                type="text"
-                className="border-1 border-gray-400 w-full mt-3 rounded-lg h-[2.3rem] px-3 h-max-[2rem] overflow-auto"
-                placeholder="Title"
-                required
-                defaultValue=""
+                    .then(() => {
+                      setConfessionAddedOpen(true);
+                      setOpen(false);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          res.confessions.forEach((confession) => {
+                            confession.time =
+                              new Date().getTime() / 1000 - confession.time;
+                          });
+                          setConfessions(res.confessions.reverse());
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+                className=""
               >
-                <option value="" disabled>
-                  Choose your confession vibe 💭
-                </option>
-                <option value="❤️ Crush/Love" className="rounded">
-                  ❤️ Crush/Love
-                </option>
-                <option value="📚 Academics" className="rounded">
-                  📚 Academics
-                </option>
-                <option value="😂 Funny/Random" className="rounded">
-                  😂 Funny / Random
-                </option>
-                <option value="👨‍🏫 Prof Moments" className="rounded">
-                  👨‍🏫 Prof Moments
-                </option>
-                <option value="💭 Deep Thoughts" className="rounded">
-                  💭 Deep Thoughts
-                </option>
-                <option value="😤 Rant" className="rounded">
-                  😤 Rant
-                </option>
-                <option value="😈 Dark secret" className="rounded">
-                  😈 Dark secret
-                </option>
-              </select>
-              <textarea
-                className="w-full border-1 border-gray-400 rounded-lg mt-4 min-h-[10rem] px-3 py-2"
-                required
-                placeholder="The confession"
-              ></textarea>
-              <button className="w-full h-[2.3rem] bg-[#3033d5] px-2 rounded text-white font-semibold cursor-pointer hover:bg-[#2225d5] duration-300 mt-2 mb-[-0.3rem]">
-                Create
-              </button>
-            </form>
-          </DialogContent>
-        </Dialog>
+                <select
+                  type="text"
+                  className="border-1 border-gray-400 w-full mt-3 rounded-lg h-[2.3rem] px-3 h-max-[2rem] overflow-auto outline-none"
+                  placeholder="Title"
+                  required
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Choose your confession vibe 💭
+                  </option>
+                  <option value="❤️ Crush/Love" className="rounded">
+                    ❤️ Crush/Love
+                  </option>
+                  <option value="📚 Academics" className="rounded">
+                    📚 Academics
+                  </option>
+                  <option value="😂 Funny/Random" className="rounded">
+                    😂 Funny / Random
+                  </option>
+                  <option value="👨‍🏫 Prof Moments" className="rounded">
+                    👨‍🏫 Prof Moments
+                  </option>
+                  <option value="💭 Deep Thoughts" className="rounded">
+                    💭 Deep Thoughts
+                  </option>
+                  <option value="😤 Rant" className="rounded">
+                    😤 Rant
+                  </option>
+                  <option value="😈 Dark secret" className="rounded">
+                    😈 Dark secret
+                  </option>
+                </select>
+                <textarea
+                  className="w-full border-1 border-gray-400 rounded-lg mt-4 min-h-[10rem] px-3 py-2 outline-none"
+                  required
+                  placeholder="The confession"
+                ></textarea>
+                <button className="w-full h-[2.3rem] bg-[#3033d5] px-2 rounded-[2rem] text-black font-semibold cursor-pointer hover:scale-[1.03] duration-300 mt-2 mb-[-0.3rem] bg-linear-to-r from-yellow-200 to-yellow-500">
+                  Create
+                </button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
 
         <div className="flex flex-col mt-5 gap-5 mb-[5rem] items-center px-3">
           {confessions.length === 0 ? (
-            <div className="text-gray-400 italic font-semibold">
+            <div className="text-white italic font-semibold">
               No items to display!
             </div>
           ) : (
@@ -498,46 +502,46 @@ function App() {
           {confessions.map((confession, index) => {
             return (
               <div
-                className="w-full h-fit p-2 bg-gray-700 rounded hover:scale-[1.05] duration-300 max-w-[30rem] mx-5 shadow-[0_0_10px_black]"
+                className={`w-full h-fit p-2 bg-gray-700 rounded hover:scale-[1.05] duration-300 max-w-[30rem] mx-5 shadow-[0_0_5px_black] ${
+                  confession.creatorGender === "girl"
+                    ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-500"
+                    : "bg-linear-to-r from-cyan-500 to-blue-600"
+                }`}
                 key={index}
               >
-                <div className="bg-[#293037] w-full h-full rounded px-4 py-1 font-bold flex flex-col">
+                <div
+                  className={`bg-[#293037] w-full h-full rounded px-4 pl-1 font-bold flex flex-col ${
+                    confession.creatorGender === "girl"
+                      ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-500"
+                      : "bg-linear-to-r from-cyan-500 to-blue-600"
+                  }`}
+                >
                   <div className="flex items-center justify-between">
                     <h1 className="text-white text-[1rem]">
                       {confession.category}
                     </h1>
-                    <p className="text-gray-600 text-[0.8rem]">
+                    <p className="text-white text-[0.8rem]">
                       {confession.time < 60
-                        ? parseInt(confession.time) + " s"
-                        : confession.time >= 60 && confession.time < 3600
-                        ? parseInt(confession.time / 60) + " min"
-                        : confession.time >= 3600 && confession.time < 3600 * 24
-                        ? parseInt(confession.time / 3600) + " hr"
-                        : confession.time >= 3600 * 24 &&
-                          confession.time < 3600 * 24 * 7
-                        ? parseInt((confession.time / 3600) * 24) + " day"
-                        : confession.time >= 3600 * 24 * 7 &&
-                          confession.time < 3600 * 24 * 7 * 30
-                        ? parseInt((confession.time / 3600) * 24 * 7) + " week"
-                        : confession.time >= 3600 * 24 * 7 * 30 &&
-                          confession.time < 3600 * 24 * 7 * 30 * 12
-                        ? parseInt(
-                            (confession.time / confession.time / 3600) *
-                              24 *
-                              7 *
-                              30
-                          ) + " month"
-                        : parseInt(
-                            (confession.time / 3600) * 24 * 7 * 30 * 12
-                          ) + " year"}{" "}
+                        ? `${parseInt(confession.time)} s`
+                        : confession.time < 3600
+                        ? `${parseInt(confession.time / 60)} min`
+                        : confession.time < 86400
+                        ? `${parseInt(confession.time / 3600)} hr`
+                        : confession.time < 604800
+                        ? `${parseInt(confession.time / 86400)} day`
+                        : confession.time < 2592000
+                        ? `${parseInt(confession.time / 604800)} week`
+                        : confession.time < 31536000
+                        ? `${parseInt(confession.time / 2592000)} month`
+                        : `${parseInt(confession.time / 31536000)} year`}{" "}
                       ago
                     </p>
                   </div>
-                  <p className="text-gray-300 italic my-2">
+                  <p className="text-white italic my-2 text-[1.3rem]">
                     "{confession.content}"
                   </p>
                 </div>
-                <div className="w-full h-fit bg-gray-700 flex items-center justify-start flex-wrap">
+                <div className="w-fit h-fit bg-gray-700 flex items-center justify-center mx-5 ml-1 flex-wrap pb-1 rounded-2xl bg-pink-00 pr-3">
                   <Heart
                     className={`ml-3 mt-2 w-5 cursor-pointer hover:scale-[1.1] transition-transform ${
                       userData.likes.includes(confession._id)
@@ -833,10 +837,9 @@ function App() {
           })}
         </div>
 
-        <footer className="w-full h-fit py-2 fixed bottom-0 bg-[#252a30] border-1 border-t-gray-600 flex gap-2 flex-col justify-center items-center">
-          <p className="text-white font-semibold text-center">
-            Made with ❤️ by Ayantik Sarkar <br />
-            Arka and Shuvam! 
+        <footer className="w-full h-fit py-2 fixed bottom-0 bg-[#f68250] border-2 border-t-gray-600 flex gap-2 flex-col justify-center items-center">
+          <p className="text-black text-center">
+            Made with ❤️ by Ayantik, Arka and Shuvam!
           </p>
         </footer>
       </div>

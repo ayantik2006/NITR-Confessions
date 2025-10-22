@@ -14,7 +14,11 @@ exports.signup = async (req, res) => {
   const { username, password, gender } = req.body;
   const userData = await Account.find({ username: username });
   if (userData.length !== 0) return res.json({ msg: "failure" });
-  await Account.create({ username: username, password: password,gender:gender });
+  await Account.create({
+    username: username,
+    password: password,
+    gender: gender,
+  });
 
   res.json({});
 };
@@ -33,6 +37,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         secure:
           process.env.FRONTEND_URL === "http://localhost:5173" ? false : true,
+        sameSite: "none",
       });
       return res.json({ msg: "success" });
     }

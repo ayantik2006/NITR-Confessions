@@ -225,7 +225,7 @@ function Login() {
                   !isUsernameAvailable
                     ? "bg-gray-300 hover:bg-gray-400 pointer-events-none"
                     : "bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 rounded"
-                } ` }
+                } `}
                 type="submit"
               >
                 Sign up

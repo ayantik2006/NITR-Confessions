@@ -16,15 +16,18 @@ function Login() {
         </h1>
         <div className="p-2 bg-gray-600 rounded-lg mx-2 w-fit h-fit">
           <div className="w-[18rem] h-[20rem] bg-gray-800 rounded-lg flex flex-col items-center justify-center gap-3">
-            <div className="w-[4.5rem] h-[4.5rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
-                className=" flex items-center justify-center rounded-[1rem] w-[4.2rem] h-[4.2rem]"
-              />
+            <div className="flex items-center justify-center gap-3 w-full ml-[4.5rem] mb-4">
+              <div className="w-[4.5rem] h-[4.5rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
+                  className=" flex items-center justify-center rounded-[1rem] w-[4.2rem] h-[4.2rem]"
+                />
+              </div>
+              <h1 className="text-white font-bold text-[1.2rem]">
+                Login to NITR Confessions
+              </h1>
             </div>
-            <h1 className="text-white font-bold text-[1.2rem]">
-              Login to NITR Confessions
-            </h1>
+
             <form
               className="flex flex-col items-center justify-center gap-3"
               onSubmit={(e) => {

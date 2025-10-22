@@ -3,11 +3,11 @@ const app=express();
 require("dotenv").config();
 const cors=require("cors")
 const confessionRouter=require("./routes/confession")
-const authRouter=require("./routes/auth")
-require("./config/db")();
+const authRouter=require("./routes/auth");
+const mongodb=require("./config/db");
 const cookieParser=require("cookie-parser");
 app.use(cookieParser(process.env.SECRET));
-
+mongodb();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors({

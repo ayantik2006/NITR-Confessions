@@ -87,7 +87,7 @@ function App() {
               className="font-barrio text-white text-[1.5rem] font-bold"
               id="nav-main-heading"
             >
-              {/* National Institute of Technology, Rourkela */}NIT R
+              {/* National Institute of Technology, Rourkela */}NITR
               Confessions
             </h1>
             <h2 className="text-gray-200 font-semibold" id="tagline">

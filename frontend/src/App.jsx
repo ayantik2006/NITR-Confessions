@@ -502,7 +502,7 @@ function App() {
           {confessions.map((confession, index) => {
             return (
               <div
-                className={`w-full h-fit p-2 bg-gray-700 rounded hover:scale-[1.05] duration-300 max-w-[30rem] mx-5 shadow-[0_0_5px_black] ${
+                className={`w-full h-fit p-2 bg-gray-700 rounded hover:scale-[1.03] duration-300 max-w-[30rem] mx-5 shadow-[0_0_5px_black] ${
                   confession.creatorGender === "girl"
                     ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-500"
                     : "bg-linear-to-r from-cyan-500 to-blue-600"
@@ -517,8 +517,8 @@ function App() {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <h1 className="text-white text-[1rem]">
-                      {confession.category}
+                    <h1 className="text-white text-[1rem] flex items-center">
+                     @<p className="text-[1.1rem] underline">{confession.creator}</p>&nbsp;: &nbsp;{confession.category}
                     </h1>
                     <p className="text-white text-[0.8rem]">
                       {confession.time < 60

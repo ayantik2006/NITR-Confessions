@@ -77,12 +77,12 @@ function App() {
           </Alert>
         </Snackbar>
         <nav className="w-full h-[5.5rem] border-black border-b-2 flex gap-3 items-center justify-center  fixed top-0 mb-[14rem] z-30 bg-[#f68250]">
-          <div className="w-[4.5rem] h-[4.5rem] flex items-center justify-center bg-gray-500 rounded-[1rem] ml-5 ">
+          
             <img
               src={logo}
-              className="rounded-[1rem] w-[4.5rem] h-[4.5rem]"
+              className="rounded-[1rem] w-[4.1rem] h-[4.1rem] mr-1"
             />
-          </div>
+         
           <div className="flex flex-col">
             <h1 className=" text-black text-[1.5rem] font-bold font-[Combo]">
               {/* National Institute of Technology, Rourkela */}NITR Confessions

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/c logo.jpg"
+import logo from "../assets/c logo.jpg";
 function Login() {
   const [showLogin, setShowLogin] = useState(true);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
@@ -95,12 +95,11 @@ function Login() {
         <Toaster position="top-center" reverseOrder={false} />
         <div className="p-2 rounded-lg mx-2 w-fit h-fit bg-[#ca4b15]">
           <div className="w-[19rem] h-[28rem] bg-[#f68250] rounded-lg flex flex-col items-center justify-center gap-3">
-            <div className="w-[4.5rem] h-[4.5rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
-              <img
-                src={logo}
-                className=" flex items-center justify-center rounded-[1rem] w-[4.5rem] h-[4.5rem]"
-              />
-            </div>
+            <img
+              src={logo}
+              className=" flex items-center justify-center rounded-[2rem] w-[4.5rem] h-[4.5rem]"
+            />
+
             <h2 className="text-black font-bold text-[1.2rem]">
               NITR Confessions
             </h2>

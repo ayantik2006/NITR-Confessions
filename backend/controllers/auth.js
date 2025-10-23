@@ -20,6 +20,13 @@ exports.signup = async (req, res) => {
     gender: gender,
   });
 
+  const token = jwt.sign({ user: username }, process.env.SECRET);
+  res.cookie("user", token, {
+    httpOnly: true,
+    secure: process.env.FRONTEND_URL === "http://localhost:5173" ? false : true,
+    sameSite:
+      process.env.FRONTEND_URL === "http://localhost:5173" ? "strict" : "none",
+  });
   res.json({});
 };
 
@@ -37,7 +44,10 @@ exports.login = async (req, res) => {
         httpOnly: true,
         secure:
           process.env.FRONTEND_URL === "http://localhost:5173" ? false : true,
-        sameSite: process.env.FRONTEND_URL === "http://localhost:5173"?"strict":"none",
+        sameSite:
+          process.env.FRONTEND_URL === "http://localhost:5173"
+            ? "strict"
+            : "none",
       });
       return res.json({ msg: "success" });
     }

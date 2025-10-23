@@ -75,12 +75,12 @@ function Login() {
               </button>
             </form>
             <div
-              className="text-[#8a2d05f5] hover:underline cursor-pointer"
+              className="text-[#8a2d05f5] hover:underline cursor-pointer font-bold"
               onClick={() => {
                 setShowLogin(false);
               }}
             >
-              Create a new Account
+              Create a new Account!
             </div>
           </div>
         </div>
@@ -134,6 +134,7 @@ function Login() {
                         toast.success("Account created successfully!", {
                           duration: 3000,
                         });
+                        window.location.reload();
                       } else {
                         toast.error("User already exists!", {
                           duration: 3000,
@@ -231,7 +232,7 @@ function Login() {
               </button>
             </form>
             <div
-              className="hover:underline cursor-pointer text-[#8f3008]"
+              className="hover:underline cursor-pointer text-[#8f3008] font-bold"
               onClick={() => {
                 setShowLogin(true);
                 setIsUsernameAvailable(true);

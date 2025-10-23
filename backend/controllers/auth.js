@@ -64,3 +64,20 @@ exports.findUsername = async (req, res) => {
   if (userData.length === 0) return res.json({ msg: "not exists" });
   else return res.json({ msg: "exists" });
 };
+
+exports.signout = async (req, res) => {
+  try {
+    res.clearCookie("user", {
+      httpOnly: true,
+      secure:
+        process.env.FRONTEND_URL === "http://localhost:5173" ? false : true,
+      sameSite:
+        process.env.FRONTEND_URL === "http://localhost:5173"
+          ? "strict"
+          : "none",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  return res.json({});
+};

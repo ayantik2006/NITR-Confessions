@@ -505,7 +505,7 @@ function App() {
               <div
                 className={`w-full h-fit p-2 bg-gray-700 rounded hover:scale-[1.03] duration-300 max-w-[30rem] mx-5 shadow-[0_0_5px_black] ${
                   confession.creatorGender === "girl"
-                    ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-500"
+                    ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-400"
                     : "bg-linear-to-r from-cyan-500 to-blue-600"
                 }`}
                 key={index}
@@ -513,7 +513,7 @@ function App() {
                 <div
                   className={`bg-[#293037] w-full h-full rounded px-4 pl-1 font-bold flex flex-col ${
                     confession.creatorGender === "girl"
-                      ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-500"
+                      ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-400"
                       : "bg-linear-to-r from-cyan-500 to-blue-600"
                   }`}
                 >

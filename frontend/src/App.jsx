@@ -410,6 +410,7 @@ function App() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  setOpen(false);
                   console.log(e.currentTarget[1].value);
 
                   fetch(import.meta.env.VITE_BACKEND_URL + "/new", {
@@ -423,7 +424,6 @@ function App() {
                   })
                     .then(() => {
                       setConfessionAddedOpen(true);
-                      setOpen(false);
                       fetch(import.meta.env.VITE_BACKEND_URL + "/confessions", {
                         method: "POST",
                         credentials: "include",

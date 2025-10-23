@@ -56,7 +56,7 @@ function App() {
 
   if (isLoggedIn)
     return (
-      <div className="min-h-screen bg-[#1b1f23] flex flex-col items-center bg-radial from-red-600 to-red-100">
+      <div className="min-h-screen bg-[#1b1f23] flex flex-col items-center bg-radial from-[#ED775A] to-[#FAD691]">
         <Snackbar
           open={confessionAddedOpen}
           autoHideDuration={4000}

@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         secure:
           process.env.FRONTEND_URL === "http://localhost:5173" ? false : true,
-        sameSite: process.env.FRONTEND_URL === "http://localhost:5173"?true:false,
+        sameSite: process.env.FRONTEND_URL === "http://localhost:5173"?"strict":"none",
       });
       return res.json({ msg: "success" });
     }

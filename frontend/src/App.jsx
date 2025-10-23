@@ -9,6 +9,7 @@ import { Heart, MessageCircle, SmilePlus } from "lucide-react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Login from "./components/Login";
+import logo from "./assets/c logo.jpg";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -78,8 +79,8 @@ function App() {
         <nav className="w-full h-[5.5rem] border-black border-b-2 flex gap-3 items-center justify-center  fixed top-0 mb-[14rem] z-30 bg-[#f68250]">
           <div className="w-[4.5rem] h-[4.5rem] flex items-center justify-center bg-gray-500 rounded-[1rem] ml-5 ">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
-              className="rounded-[1rem] w-[4.2rem] h-[4.2rem]"
+              src={logo}
+              className="rounded-[1rem] w-[4.5rem] h-[4.5rem]"
             />
           </div>
           <div className="flex flex-col">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import logo from "../assets/c logo.jpg"
 function Login() {
   const [showLogin, setShowLogin] = useState(true);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
@@ -17,10 +17,10 @@ function Login() {
         <div className="p-2 bg-[#ca4b15] rounded-lg mx-2 w-fit h-fit">
           <div className="w-[18rem] h-[20rem] bg-[#f68250] rounded-lg flex flex-col items-center justify-center gap-3">
             <div className="flex items-center justify-center gap-3 w-full ml-[4.5rem] mb-4">
-              <div className="w-[5rem] h-[4.5rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
+              <div className="w-[5rem] h-[4.3rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
-                  className=" flex items-center justify-center rounded-[1rem] w-[4.2rem] h-[4.2rem]"
+                  src={logo}
+                  className=" flex items-center justify-center rounded-[1rem] w-[4.3rem] h-[4.3rem]"
                 />
               </div>
               <h1 className="text-black font-bold text-[1.2rem]">
@@ -97,8 +97,8 @@ function Login() {
           <div className="w-[19rem] h-[28rem] bg-[#f68250] rounded-lg flex flex-col items-center justify-center gap-3">
             <div className="w-[4.5rem] h-[4.5rem]  bg-gray-500 rounded-[1rem] flex items-center justify-center">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEbs6--dxw9FBUMzte0H4J9hH46_VsnRPANg&s"
-                className=" flex items-center justify-center rounded-[1rem] w-[4.2rem] h-[4.2rem]"
+                src={logo}
+                className=" flex items-center justify-center rounded-[1rem] w-[4.5rem] h-[4.5rem]"
               />
             </div>
             <h2 className="text-black font-bold text-[1.2rem]">

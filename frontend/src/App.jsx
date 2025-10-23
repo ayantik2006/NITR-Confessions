@@ -388,7 +388,7 @@ function App() {
                     😤 Rant
                   </option>
                   <option value="😈 Dark secret" className="rounded text-black">
-                    😈 Dark secret
+                    🫦 Spicy
                   </option>
                 </select>
               </div>
@@ -476,7 +476,7 @@ function App() {
                     😤 Rant
                   </option>
                   <option value="😈 Dark secret" className="rounded">
-                    😈 Dark secret
+                    🫦 Spicy
                   </option>
                 </select>
                 <textarea
@@ -519,7 +519,7 @@ function App() {
                 >
                   <div className="flex items-center justify-between">
                     <h1 className="text-white text-[1rem] flex items-center">
-                     @<p className="text-[1.1rem] underline">{confession.creator}</p>&nbsp;: &nbsp;{confession.category}
+                     @<p className="text-[1.1rem] underline">{confession.creator}</p>&nbsp;: &nbsp;{confession.category==="😈 Dark secret"?"🫦 Spicy":confession.category}
                     </h1>
                     <p className="text-white text-[0.8rem]">
                       {confession.time < 60

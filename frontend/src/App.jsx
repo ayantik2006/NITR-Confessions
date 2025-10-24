@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 import Login from "./components/Login";
 import logo from "./assets/c logo.jpg";
 import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
+import { MessageSquareText } from 'lucide-react';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -91,7 +92,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, [comments,commentCreator]);
+  }, [comments, commentCreator]);
 
   if (isLoggedIn)
     return (
@@ -592,7 +593,10 @@ function App() {
                         key={index}
                       >
                         <div className="flex text-orange-600 italic">
-                          @<p className="">{[...commentCreator].reverse().at(index)}</p>
+                          @
+                          <p className="">
+                            {[...commentCreator].reverse().at(index)}
+                          </p>
                         </div>
                         <p>{comment}</p>
                       </div>
@@ -617,7 +621,7 @@ function App() {
                       .then((res) => {
                         setComments(res.comments);
                         setCommentCreator(res.commentCreator);
-                        e.currentTarget.value="";
+                        e.currentTarget.value = "";
                       });
                   }}
                 >
@@ -692,7 +696,31 @@ function App() {
                     "{confession.content}"
                   </p>
                 </div>
+
                 <div className="w-fit h-fit bg-gray-700 flex items-center justify-center mx-5 ml-1 flex-wrap pb-1 rounded-2xl bg-pink-00 pr-3">
+                  <div
+                    className="flex items-center justify-center rounded-[0.4rem] ml-3 mt-[0.4rem]"
+                    onClick={() => {
+                      setCommentOpen(true);
+                      setConfessionId(confession._id);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/comments", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: confession._id }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          setComments(res.comments);
+                          setCommentCreator(res.commentCreator);
+                        });
+                    }}
+                  >
+                    <MessageSquareText className="text-gray-400 w-5 cursor-pointer hover:scale-[1.1] mr-1 stroke-orange-600 fill-orange-100" />
+                    <p className="text-[#9099a7] font-semibold text-[0.8rem]">
+                      {confession.comments.length}
+                    </p>
+                  </div>
                   <Heart
                     className={`ml-3 mt-2 w-5 cursor-pointer hover:scale-[1.1] transition-transform ${
                       userData.likes.includes(confession._id)
@@ -973,30 +1001,6 @@ function App() {
 
                     <p className="text-[#9099a7] mt-2 ml-1 font-semibold text-[0.8rem]">
                       {confession.think}
-                    </p>
-                  </div>
-
-                  <div
-                    className="flex items-center"
-                    onClick={() => {
-                      setCommentOpen(true);
-                      setConfessionId(confession._id);
-                      fetch(import.meta.env.VITE_BACKEND_URL + "/comments", {
-                        method: "POST",
-                        credentials: "include",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ id: confession._id }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => {
-                          setComments(res.comments);
-                          setCommentCreator(res.commentCreator);
-                        });
-                    }}
-                  >
-                    <MessageCircle className="ml-3 mt-2 text-gray-400 w-5 cursor-pointer hover:scale-[1.1]" />
-                    <p className="text-[#9099a7] mt-2 ml-1 font-semibold text-[0.8rem]">
-                      {confession.comments.length}
                     </p>
                   </div>
                 </div>

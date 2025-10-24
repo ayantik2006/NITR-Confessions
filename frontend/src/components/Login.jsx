@@ -94,7 +94,7 @@ function Login() {
         </h1>
         <Toaster position="top-center" reverseOrder={false} />
         <div className="p-2 rounded-lg mx-2 w-fit h-fit bg-[#ca4b15]">
-          <div className="w-[19rem] h-[28rem] bg-[#f68250] rounded-lg flex flex-col items-center justify-center gap-3">
+          <div className="w-[19rem] h-[26rem] bg-[#f68250] rounded-lg flex flex-col items-center justify-center gap-3">
             <img
               src={logo}
               className=" flex items-center justify-center rounded-[2rem] w-[4.5rem] h-[4.5rem]"
@@ -106,9 +106,9 @@ function Login() {
             <h1 className="text-gray-700 font-semi mt-[-0.8rem] bold text-[1rem]">
               Create an Account
             </h1>
-            <p className="text-[0.85rem] text-gray-600 italic">
+            {/* <p className="text-[0.85rem] text-gray-600  text-center">
               Please do remember your username and password
-            </p>
+            </p> */}
             <form
               className="flex flex-col items-center justify-center gap-3"
               onSubmit={(e) => {
@@ -189,7 +189,7 @@ function Login() {
                 placeholder="Password"
                 required
               />
-              <div className="mb-[-0.8rem] text-white font-semibold  text-[1.2rem]">
+              <div className="mb-[-0.8rem] text-black font-semibold  text-[1.2rem]">
                 I am a
               </div>
               <div className="flex">

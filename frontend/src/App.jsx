@@ -46,7 +46,7 @@ function App() {
             });
           }}
         >
-          <i className="fa-solid fa-right-from-bracket mr-1 ml-[0.1rem]"></i>
+          <i className="fa-solid fa-right-from-bracket mr-1 ml-[0.1rem] "></i>
           <ListItemText primary="Sign Out" />
         </ListItem>
       </List>
@@ -134,7 +134,7 @@ function App() {
               Confess!
             </button>
             <button
-              className="bg-red-600 px-3 py-1 rounded-[2rem] text-white font-semibold cursor-pointer h-[2rem] hover:bg-red-700 "
+              className="bg-red-600 px-3 rounded-[2rem] text-white font-semibold cursor-pointer h-[2rem] hover:bg-red-700 border-2 border-red-800"
               onClick={() => {
                 fetch(import.meta.env.VITE_BACKEND_URL + "/auth/signout", {
                   method: "POST",

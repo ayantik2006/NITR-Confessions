@@ -19,7 +19,7 @@ function App() {
   const [confessions, setConfessions] = useState([]);
   const [isOldest, setIsOldest] = useState(false);
   const [userData, setUserData] = useState({});
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const toggleDrawer = (val) => () => setDrawerOpen(val);
 
   const list = (

@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
   content: { type: String, default: "" },
   likes: { type: Number, default: 0 },
   comments: { type: Array, default: [] },
+  commentCreator: { type: Array, default: [] },
   lol: { type: Number, default: 0 },
   cry: { type: Number, default: 0 },
   angry: { type: Number, default: 0 },

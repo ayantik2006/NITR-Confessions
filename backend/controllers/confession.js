@@ -4,13 +4,13 @@ const jwt = require("jsonwebtoken");
 
 exports.createConfession = async (req, res) => {
   const user = jwt.verify(req.cookies.user, process.env.SECRET).user;
-  const userData=await Account.findOne({username:user});
+  const userData = await Account.findOne({ username: user });
   const { category, content } = req.body;
   await Confession.create({
     category: category,
     content: content,
     creator: user,
-    creatorGender:userData.gender,
+    creatorGender: userData.gender,
     time: new Date().getTime() / 1000,
   });
   res.json({});
@@ -124,4 +124,20 @@ exports.updateReaction = async (req, res) => {
       );
     }
   }
+};
+
+exports.getComments = async (req, res) => {
+  const id = req.body.id;
+  const confessions = await Confession.findOne({ _id: id });
+  res.json({ comments: confessions.comments, commentCreator:confessions.commentCreator });
+};
+
+exports.addComment = async (req, res) => {
+  const {id,commentContent}=req.body;
+  const user = jwt.verify(req.cookies.user, process.env.SECRET).user;
+  const confessions = await Confession.findOne({ _id: id });
+  confessions.comments.push(commentContent);
+  confessions.commentCreator.push(user);
+  await Confession.updateOne({_id:id},{comments:confessions.comments,commentCreator:confessions.commentCreator});
+  res.json({comments:confessions.comments,commentCreator:confessions.commentCreator});
 };

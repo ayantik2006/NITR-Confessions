@@ -14,13 +14,18 @@ import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
   const [confessionAddedOpen, setConfessionAddedOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [confessions, setConfessions] = useState([]);
   const [isOldest, setIsOldest] = useState(false);
   const [userData, setUserData] = useState({});
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [confessionId, setConfessionId] = useState("");
+  const [comments, setComments] = useState([]);
+  const [commentCreator, setCommentCreator] = useState([]);
   const toggleDrawer = (val) => () => setDrawerOpen(val);
+  const [commentsCount, setCommentsCount] = useState(0);
 
   const list = (
     <div className="h-full p-2 bg-orange-400">
@@ -86,7 +91,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [comments,commentCreator]);
 
   if (isLoggedIn)
     return (
@@ -562,6 +567,72 @@ function App() {
               </form>
             </DialogContent>
           </Dialog>
+
+          <Dialog
+            open={commentOpen}
+            onClose={() => {
+              setCommentOpen(false);
+            }}
+          >
+            <DialogTitle>Comments</DialogTitle>
+            <DialogContent className="">
+              <DialogContentText className="mb-5">
+                Share you views and thoughts and have fun!!
+              </DialogContentText>
+              <div className="flex flex-col">
+                <div className="flex flex-col gap-2 mt-3 max-h-[18rem] overflow-auto">
+                  {comments.length === 0 ? (
+                    <h1 className="bg-gray-200 text-center w-full h-9 pt-[0.35rem] rounded text-gray-600 italic mt-1">
+                      No comments yet
+                    </h1>
+                  ) : (
+                    [...comments].reverse().map((comment, index) => (
+                      <div
+                        className="bg-orange-100 p-2 rounded-[0.5rem] border-2 border-orange-800 flex flex-col"
+                        key={index}
+                      >
+                        <div className="flex text-orange-600 italic">
+                          @<p className="">{[...commentCreator].reverse().at(index)}</p>
+                        </div>
+                        <p>{comment}</p>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <form
+                  className="flex flex-col gap-2"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    fetch(import.meta.env.VITE_BACKEND_URL + "/add-comment", {
+                      method: "POST",
+                      credentials: "include",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        id: confessionId,
+                        commentContent: e.currentTarget[0].value,
+                      }),
+                    })
+                      .then((res) => res.json())
+                      .then((res) => {
+                        setComments(res.comments);
+                        setCommentCreator(res.commentCreator);
+                        e.currentTarget.value="";
+                      });
+                  }}
+                >
+                  <textarea
+                    className="w-full border-1 mt-4 border-gray-500 rounded-[0.5rem] outline-none p-2"
+                    placeholder="Your comment..."
+                    required
+                  ></textarea>
+                  <button className="bg-linear-to-r from-yellow-200 to-yellow-500 rounded-[2rem] py-1 font-semibold cursor-pointer hover:scale-[1.04] duration-300">
+                    Comment
+                  </button>
+                </form>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="flex flex-col mt-5 gap-5 mb-[5rem] items-center px-3">
@@ -905,12 +976,29 @@ function App() {
                     </p>
                   </div>
 
-                  {/* <div className="flex items-center">
+                  <div
+                    className="flex items-center"
+                    onClick={() => {
+                      setCommentOpen(true);
+                      setConfessionId(confession._id);
+                      fetch(import.meta.env.VITE_BACKEND_URL + "/comments", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: confession._id }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          setComments(res.comments);
+                          setCommentCreator(res.commentCreator);
+                        });
+                    }}
+                  >
                     <MessageCircle className="ml-3 mt-2 text-gray-400 w-5 cursor-pointer hover:scale-[1.1]" />
                     <p className="text-[#9099a7] mt-2 ml-1 font-semibold text-[0.8rem]">
                       {confession.comments.length}
                     </p>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             );

@@ -5,11 +5,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
-import { Heart, MessageCircle, SmilePlus } from "lucide-react";
+import { Fullscreen, Heart, MessageCircle, SmilePlus } from "lucide-react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Login from "./components/Login";
 import logo from "./assets/c logo.jpg";
+import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,39 @@ function App() {
   const [confessions, setConfessions] = useState([]);
   const [isOldest, setIsOldest] = useState(false);
   const [userData, setUserData] = useState({});
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const toggleDrawer = (val) => () => setDrawerOpen(val);
+
+  const list = (
+    <div className="h-full p-2 bg-orange-400">
+      <List sx={{ width: 280 }} className="bg-orange-200 h-full rounded">
+        <ListItem
+          button
+          className="cursor-pointer hover:font-bold"
+          onClick={() => setOpen(true)}
+        >
+          <i className="fa-solid fa-feather mr-1"></i>
+          <ListItemText primary="Create Confession" />
+        </ListItem>
+        <ListItem
+          button
+          className="cursor-pointer"
+          onClick={() => {
+            fetch(import.meta.env.VITE_BACKEND_URL + "/auth/signout", {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+            }).then(() => {
+              window.location.reload();
+            });
+          }}
+        >
+          <i className="fa-solid fa-right-from-bracket mr-1 ml-[0.1rem]"></i>
+          <ListItemText primary="Sign Out" />
+        </ListItem>
+      </List>
+    </div>
+  );
 
   useEffect(() => {
     fetch(import.meta.env.VITE_BACKEND_URL + "/auth/user", {
@@ -76,33 +110,71 @@ function App() {
             Your confession is now public!
           </Alert>
         </Snackbar>
-        <nav className="w-full h-[5.5rem] border-black border-b-2 flex gap-3 items-center justify-center  fixed top-0 mb-[14rem] z-30 bg-[#f68250]">
-          
+        <nav className="w-full h-[4rem] border-black border-b-2 flex gap-3 items-center justify-between fixed top-0 mb-[14rem] z-30 bg-[#f68250]">
+          <div className="flex items-center gap-1">
             <img
               src={logo}
-              className="rounded-[1rem] w-[4.1rem] h-[4.1rem] mr-1"
+              className="rounded-[0.5rem] w-[3rem] h-[3rem] ml-4"
             />
-         
-          <div className="flex flex-col">
-            <h1 className=" text-black text-[1.5rem] font-bold font-[Combo]">
-              {/* National Institute of Technology, Rourkela */}NITR Confessions
+            <h1
+              className=" text-black text-[1.8rem] font-extrabold ml-2"
+              id="logo-text"
+            >
+              NITR Confessions
             </h1>
-            <h2 className="text-black font-semibold " id="tagline">
-              Boldo Mann ki Baat 😉
-            </h2>
+          </div>
+          <div className="flex gap-3 items-center [@media(width<=577px)]:hidden mr-5">
+            <button
+              className="w-[8rem] h-[2.1rem] bg-[#3033d5] rounded-[2rem] text-black font-semibold cursor-pointer hover:scale-[1.05] duration-200 bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <i className="fa-solid fa-feather mr-1"></i>
+              Confess!
+            </button>
+            <button
+              className="bg-red-600 px-3 py-1 rounded-[2rem] text-white font-semibold cursor-pointer h-[2rem] hover:bg-red-700 "
+              onClick={() => {
+                fetch(import.meta.env.VITE_BACKEND_URL + "/auth/signout", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                }).then(() => {
+                  window.location.reload();
+                });
+              }}
+            >
+              <i className="fa-solid fa-right-from-bracket mr-1"></i>
+              Sign out
+            </button>
+          </div>
+          <div
+            className=" [@media(width>=577px)]:hidden mr-5 rounded-full hover:bg-orange-300 h-7 w-7 flex items-center justify-center duration-300 cursor-pointer"
+            onClick={() => setDrawerOpen(true)}
+          >
+            <i className="fa-solid fa-bars mt-[0.2rem]"></i>
           </div>
         </nav>
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-[5rem]">
           <button
-            className="w-[18rem] m-4 h-[2.3rem] bg-[#3033d5] px-2 rounded-[2rem] text-black font-semibold cursor-pointer hover:scale-[1.05] duration-200 bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 mt-[6rem]"
+            className="w-[8rem] h-[2.1rem] bg-[#3033d5] rounded-[2rem] text-black font-semibold cursor-pointer hover:scale-[1.05] duration-200 bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 mb-4 [@media(width>=577px)]:hidden"
             onClick={() => {
               setOpen(true);
             }}
           >
-            <i className="fa-solid fa-plus mr-1"></i>
+            <i className="fa-solid fa-feather mr-1"></i>
             Confess!
           </button>
+
+          <Drawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={toggleDrawer(false)}
+          >
+            {list}
+          </Drawer>
 
           <div className="flex flex-wrap items-center justify-center gap-2">
             <div className="fit mx-3 flex bg-[#ffffff76] px-3 py-2 rounded-[1.4rem]">
@@ -513,13 +585,20 @@ function App() {
                 <div
                   className={`bg-[#293037] w-full h-full rounded px-4 pl-1 font-bold flex flex-col ${
                     confession.creatorGender === "girl"
-                      ? "bg-linear-to-l from-pink-600 to-pink-400"
+                      ? "bg-linear-to-l bg-linear-65 from-pink-600 to-pink-400"
                       : "bg-linear-to-r from-cyan-500 to-blue-600"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <h1 className="text-white text-[1rem] flex items-center">
-                     @<p className="text-[1.1rem] underline">{confession.creator}</p>&nbsp;: &nbsp;{confession.category==="😈 Dark secret"?"🫦 Spicy":confession.category}
+                      @
+                      <p className="text-[1.1rem] underline">
+                        {confession.creator}
+                      </p>
+                      &nbsp;: &nbsp;
+                      {confession.category === "😈 Dark secret"
+                        ? "🫦 Spicy"
+                        : confession.category}
                     </h1>
                     <p className="text-white text-[0.8rem]">
                       {confession.time < 60

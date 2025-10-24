@@ -224,7 +224,7 @@ function Login() {
                 className={`font-semibold px-2 py-1 rounded-[0.5rem] ${
                   !isUsernameAvailable
                     ? "bg-gray-300 hover:bg-gray-400 pointer-events-none"
-                    : "bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 rounded"
+                    : "bg-linear-to-r from-yellow-200 to-yellow-500 border-2 border-yellow-700 rounded cursor-pointer hover:scale-[1.05] duration-300"
                 } `}
                 type="submit"
               >

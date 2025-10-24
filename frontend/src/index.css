@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @layer {
-  #nav-main-heading {
-    font-family: sans-serif;
+  #logo-text {
+    font-family: "Poiret One", sans-serif;
   }
   @media (max-width: 579px) {
     #nav-main-heading {
